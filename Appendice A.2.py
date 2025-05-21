@@ -197,7 +197,8 @@ plt.title('Perdite di carico lato acqua in funzione della portata d\'acqua',font
 plt.tick_params(axis='both', which='major', labelsize=30)
 plt.show()
 
-#Visualizzazione grafico Q-Delta T
+#Grafico Q-DeltaT
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
