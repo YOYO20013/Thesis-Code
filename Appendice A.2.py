@@ -196,3 +196,98 @@ plt.ylabel(r'$D_{p_{H2O}} [Pa]$',fontsize=30)
 plt.title('Perdite di carico lato acqua in funzione della portata d\'acqua',fontsize=26)
 plt.tick_params(axis='both', which='major', labelsize=30)
 plt.show()
+
+#Visualizzazione grafico Q-Delta T
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Definisci il percorso del file Excel
+file_path = "C:/Users/MEDIA/Dropbox/Il mio PC (DESKTOP-5MOS4OL)/Desktop/TESI MAGISTRALE/Code_portate.xlsx"
+
+# Carica il file Excel (header=0 indica che la prima riga contiene i nomi delle variabili)
+df = pd.read_excel(file_path, header=0)
+
+# Colori distinti per ogni fitting lineare (usati codici esadecimali)
+colors = ['#1f77b4', '#2ca02c', '#d62728',  '#9467bd']
+
+# Funzione per eseguire il fitting e la visualizzazione con colore specifico
+def fit_and_plot(x, y, label, color):
+    coefficients = np.polyfit(x, y, 1)  # Fitting lineare
+    y_fit = np.polyval(coefficients, x)  # Valori del fitting
+    plt.plot(x, y_fit, label=label, color=color, linewidth=2)  # Disegna la retta di fitting con colore
+
+plt.figure(figsize=(18, 12)) 
+
+# Prendi i primi 5 valori
+x1 = df['Q_H2O [l/min]'].iloc[0:5].values
+y1 = df['Power [W]'].iloc[0:5].values
+fit_and_plot(x1, y1, r'$\Delta T_{w-air} = 40 \, \text{K}$', colors[0])
+
+# Prendi i successivi 3 valori
+x2 = df['Q_H2O [l/min]'].iloc[5:8].values
+y2 = df['Power [W]'].iloc[5:8].values
+fit_and_plot(x2, y2, r'$\Delta T_{w-air} = 30 \, \text{K}$', colors[1])
+
+# Prendi i successivi 5 valori
+x3 = df['Q_H2O [l/min]'].iloc[8:13].values
+y3 = df['Power [W]'].iloc[8:13].values
+fit_and_plot(x3, y3, r'$\Delta T_{w-air} = 20 \, \text{K}$', colors[3])
+
+# Prendi gli ultimi 3 valori
+x4 = df['Q_H2O [l/min]'].iloc[13:16].values
+y4 = df['Power [W]'].iloc[13:16].values
+fit_and_plot(x4, y4, r'$\Delta T_{w-air} = 10 \, \text{K}$', colors[2])
+
+# Imposta le etichette e il titolo
+plt.xlabel(r'$Q_{H2O} \, [\frac{l}{min}]$', fontsize=30)
+plt.ylabel(r'$\dot{Q}$ [W]',fontsize=30)
+plt.title(r'Potenza scambiata con $v_{air,in} = 5 \, \frac{m}{s}$', fontsize=26)
+plt.legend(fontsize=26)
+plt.grid()
+plt.tick_params(axis='both', which='major', labelsize=26)
+plt.xlim(0, 20)
+plt.ylim(0, 3500)
+# Mostra il grafico
+plt.show()
+
+#Portata in funzione del Delta T
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Crea il DataFrame con i tuoi dati
+data = {
+    'DT': [40, 30, 20, 10],
+    'Q': [2970.3, 2277.7, 1541.4, 814.5]
+}
+
+df = pd.DataFrame(data)
+
+# Colori distinti per il fitting lineare (usati codici esadecimali)
+colors = ['#1f77b4']
+
+# Funzione per eseguire il fitting e la visualizzazione con colore specifico
+def fit_and_plot(x, y, label, color):
+    coefficients = np.polyfit(x, y, 1)  # Fitting lineare
+    y_fit = np.polyval(coefficients, x)  # Valori del fitting
+    plt.plot(x, y_fit, label=label, color=color, linewidth=2)  # Disegna la retta di fitting con colore
+
+plt.figure(figsize=(18, 12))  
+
+# Estrai i valori da DataFrame
+x = df['DT'].values  # Prendi i valori di DT
+y = df['Q'].values   # Prendi i valori di potenza (Q)
+fit_and_plot(x, y, r'$Q$ vs $ \Delta T$', colors[0])  # Aggiungi la retta di fitting
+
+# Imposta le etichette e il titolo
+plt.xlabel(r'$ \Delta T_{w-air} \, [K]$', fontsize=30)
+plt.ylabel(r'$\dot{Q}$ [W]', fontsize=30)
+plt.title(r'Potenza in funzione di $\Delta T_{w-air}, con v_{air} = 5 \frac {m}{s}; Q_\text{H2O} = 15 \frac{l}{min} $', fontsize=26)
+plt.grid()
+plt.tick_params(axis='both', which='major', labelsize=26)
+plt.xlim(0, 50)  # Aggiungi un limite per l'asse x
+plt.ylim(0, 3500)  # Aggiungi un limite per l'asse y
+
+# Mostra il grafico
+plt.show()
